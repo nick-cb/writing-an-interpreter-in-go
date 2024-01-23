@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"strconv"
 	"writing-an-interpreter-in-go/ast"
 	"writing-an-interpreter-in-go/lexer"
 	"writing-an-interpreter-in-go/token"
@@ -42,8 +43,9 @@ func New(l *lexer.Lexer) *Parser {
 
 	p.nextToken()
 	p.nextToken()
-  p.prefixParseFns = make(map[token.TokenType]prefixParseFn)
-  p.registerPrefix(token.IDENT, p.parseIdentifier)
+	p.prefixParseFns = make(map[token.TokenType]prefixParseFn)
+	p.registerPrefix(token.IDENT, p.parseIdentifier)
+	p.registerPrefix(token.INT, p.parseIntegerLiteral)
 
 	return p
 }
@@ -121,13 +123,13 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 }
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {
-  prefix := p.prefixParseFns[p.curToken.Type]
-  if prefix == nil {
-    return nil
-  }
-  leftExp := prefix()
+	prefix := p.prefixParseFns[p.curToken.Type]
+	if prefix == nil {
+		return nil
+	}
+	leftExp := prefix()
 
-  return leftExp
+	return leftExp
 }
 
 func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
@@ -142,8 +144,23 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 	return stmt
 }
 
-func (p* Parser) parseIdentifier() ast.Expression {
-  return &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+func (p *Parser) parseIdentifier() ast.Expression {
+	return &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+}
+
+func (p *Parser) parseIntegerLiteral() ast.Expression {
+	lit := &ast.IntegerLiteral{Token: p.curToken}
+
+	value, err := strconv.ParseInt(p.curToken.Literal, 0, 64)
+	if err != nil {
+		msg := fmt.Sprintf("could not parse %q as integer", p.curToken.Literal)
+		p.errors = append(p.errors, msg)
+		return nil
+	}
+
+	lit.Value = value
+
+	return lit
 }
 
 func (p *Parser) curTokenIs(t token.TokenType) bool {
