@@ -42,10 +42,20 @@ func (p *Program) String() string {
 	return out.String()
 }
 
+type Identifier struct {
+	Token token.Token
+	Value string
+}
+
 type LetStatement struct {
 	Token token.Token
 	Name  *Identifier
 	Value Expression
+}
+
+type IntegerLiteral struct {
+	Token token.Token
+	Value int64
 }
 
 func (ls *LetStatement) statementNode()       {}
@@ -97,11 +107,10 @@ func (es *ExpressionStatement) String() string {
 	return ""
 }
 
-type Identifier struct {
-	Token token.Token
-	Value string
-}
-
 func (i *Identifier) expressionNode()      {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 func (i *Identifier) String() string       { return i.Value }
+
+func (il *IntegerLiteral) expressionNode()      {}
+func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
+func (il *IntegerLiteral) String() string       { return il.Token.Literal }
