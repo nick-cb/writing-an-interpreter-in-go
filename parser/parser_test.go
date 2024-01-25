@@ -17,7 +17,7 @@ func TestLetStatements(t *testing.T) {
 	l := lexer.New(input)
 	p := New(l)
 
-	program := p.ParserProgram()
+	program := p.ParseProgram()
 	checkParserErrors(t, p)
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
@@ -73,7 +73,7 @@ func TestReturnStatements(t *testing.T) {
 	l := lexer.New(input)
 	p := New(l)
 
-	program := p.ParserProgram()
+	program := p.ParseProgram()
 	checkParserErrors(t, p)
 
 	if len(program.Statements) != 3 {
@@ -97,7 +97,7 @@ func TestIntegerLiteralExpression(t *testing.T) {
 
 	l := lexer.New(input)
 	p := New(l)
-	program := p.ParserProgram()
+	program := p.ParseProgram()
 	checkParserErrors(t, p)
 
 	if len(program.Statements) != 1 {
@@ -138,7 +138,7 @@ func TestIdentifierExpression(t *testing.T) {
 
 	l := lexer.New(input)
 	p := New(l)
-	program := p.ParserProgram()
+	program := p.ParseProgram()
 	checkParserErrors(t, p)
 
 	if len(program.Statements) != 1 {
@@ -171,7 +171,7 @@ func TestParsingPrefixExpressions(t *testing.T) {
 	for _, tt := range prefixTests {
 		l := lexer.New(tt.input)
 		p := New(l)
-		program := p.ParserProgram()
+		program := p.ParseProgram()
 		checkParserErrors(t, p)
 
 		if len(program.Statements) != 1 {
@@ -236,7 +236,7 @@ func TestParsingInfixExpression(t *testing.T) {
 	for _, tt := range infixTests {
 		l := lexer.New(tt.input)
 		p := New(l)
-		program := p.ParserProgram()
+		program := p.ParseProgram()
 		checkParserErrors(t, p)
 
 		if len(program.Statements) != 1 {
