@@ -171,7 +171,7 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 	return lit
 }
 
-func (p *Parse) parsePrefixExpression() ast.Expression {
+func (p *Parser) parsePrefixExpression() ast.Expression {
   expression := &ast.PrefixExpression{
     Token: p.curToken,
     Operator: p.curToken.Literal,
