@@ -29,6 +29,13 @@ const (
 	LET      = "LET"
 )
 
-func New(tokenType TokenType, literal byte) Token {
-	return Token{Type: tokenType, Literal: string(literal)}
+func LookUpIdent(literal string) TokenType {
+	switch literal {
+	case "let":
+		return LET
+	case "fn":
+		return FUNCTION
+	}
+
+	return IDENT
 }
