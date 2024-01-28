@@ -28,6 +28,18 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.ASSIGN, l.ch)
 	case '+':
 		tok = newToken(token.PLUS, l.ch)
+	case '-':
+		tok = newToken(token.MINUS, l.ch)
+	case '*':
+		tok = newToken(token.ASTERISK, l.ch)
+	case '/':
+		tok = newToken(token.SLASH, l.ch)
+	case '!':
+		tok = newToken(token.BANG, l.ch)
+	case '<':
+		tok = newToken(token.LT, l.ch)
+	case '>':
+		tok = newToken(token.GT, l.ch)
 	case '(':
 		tok = newToken(token.LPAREN, l.ch)
 	case ')':
@@ -47,18 +59,18 @@ func (l *Lexer) NextToken() token.Token {
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookUpIdent(tok.Literal)
-  fmt.Printf("[%v]\n", string(tok.Literal))
+			fmt.Printf("[%v]\n", string(tok.Literal))
 			return tok
 		} else if isDigit(l.ch) {
 			tok.Type = token.INT
 			tok.Literal = l.readNumber()
-  fmt.Printf("[%v]\n", string(tok.Literal))
+			fmt.Printf("[%v]\n", string(tok.Literal))
 			return tok
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
 	}
-  fmt.Printf("[%v]\n", string(tok.Literal))
+	fmt.Printf("[%v]\n", string(tok.Literal))
 	l.readChar()
 
 	return tok
