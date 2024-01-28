@@ -23,8 +23,13 @@ const (
 	SLASH    = "/"
 	BANG     = "!"
 
-	LT = "<"
-	GT = ">"
+	LT    = "<"
+	GT    = ">"
+	EQ = "=="
+  NOT_EQ = "!="
+	// LTE   = "<="
+	// GTE   = ">="
+
 
 	COMMA     = ","
 	SEMICOLON = ";"
@@ -52,10 +57,10 @@ var keywords = map[string]TokenType{
 }
 
 func LookUpIdent(literal string) TokenType {
-  keyword, ok := keywords[literal]
-  if ok {
-    return keyword
-  }
+	keyword, ok := keywords[literal]
+	if ok {
+		return keyword
+	}
 
 	return IDENT
 }
